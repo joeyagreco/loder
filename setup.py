@@ -1,6 +1,5 @@
 import setuptools
 import sys
-from packaging import version
 
 pkg_vars = dict()
 with open("loder/_version.py") as f:
@@ -10,7 +9,7 @@ package_version = pkg_vars["__version__"]
 minimum_python_version_required = pkg_vars["__version_minimum_python__"]
 
 # check Python version
-if version.parse(sys.version) < version.parse(minimum_python_version_required):
+if sys.version_info < tuple(map(int, minimum_python_version_required.split("."))):
     sys.exit(f"This package requires Python >= {minimum_python_version_required}")
 
 
