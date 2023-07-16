@@ -5,6 +5,7 @@ from model.EnvData import EnvData
 from model.EnvVarMemory import EnvVarMemory
 
 from model.Settings import Settings
+from dotenv import load_dotenv
 
 
 def define_env_var(
@@ -32,6 +33,7 @@ def define_env_var(
 
 def load_env_vars_from_os() -> None:
     if Settings.load_env_vars_from_os:
+        load_dotenv()
         env_vars = os.environ
 
         for key, value in env_vars.items():

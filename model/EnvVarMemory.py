@@ -19,4 +19,5 @@ class EnvVarMemory:
     def set(cls, *, key: str, env_data: EnvData) -> None:
         if not Settings.allow_env_var_key_override and key in cls.env_vars:
             raise DuplicateKeyException(f"Key '{key}' is already taken.")
+        key = key if Settings.case_sensitive_keys else key.upper()
         cls.env_vars[key] = env_data
