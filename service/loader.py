@@ -9,4 +9,3 @@ def define(
         raise TypeError(
             f"Expected key '{key}' to be of type '{as_type}'. Received default value of type '{type(default_value)}'"
         )
-
