@@ -7,6 +7,9 @@ class Settings:
     )
     case_sensitive_keys: bool = False  # whether or not keys should be case sensitive
     env_var_absolute_file_paths: list[str] = []  # a list of all of the paths to env var files
+    load_env_vars_from_files: bool = (
+        True  # whether or not to load env vars from files (does not include .env files)
+    )
     load_env_vars_from_os: bool = True  # whether or not to load env vars from the OS
     os_env_prefix: Optional[
         str

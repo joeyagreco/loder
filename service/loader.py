@@ -72,3 +72,10 @@ def load_env_vars_from_files() -> None:
                     env_var_source=EnvVarSource.FILE, value=value, as_type=type(value)
                 ),
             )
+
+
+def load_all_env_vars() -> None:
+    if Settings.load_env_vars_from_os:
+        load_env_vars_from_os()
+    if Settings.load_env_vars_from_files:
+        load_env_vars_from_files()
