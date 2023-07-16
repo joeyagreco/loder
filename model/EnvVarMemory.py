@@ -4,7 +4,7 @@ from model.EnvData import EnvData
 from model.Settings import Settings
 
 
-class EnvVars:
+class EnvVarMemory:
     """
     Used to store all env vars.
     """
@@ -15,6 +15,6 @@ class EnvVars:
         return cls.env_vars[key]
 
     def set(cls, *, key: str, env_data: EnvData) -> None:
-        if not Settings.allow_key_override and key in cls.env_vars:
+        if not Settings.allow_env_var_key_override and key in cls.env_vars:
             raise DuplicateKeyException(f"Key '{key}' is already taken.")
         cls.env_vars[key] = env_data
