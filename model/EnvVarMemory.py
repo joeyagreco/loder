@@ -12,6 +12,13 @@ class EnvVarMemory:
     env_vars: dict[str, EnvData] = {}
 
     @classmethod
+    def print(cls):
+        for key, val in cls.env_vars.items():
+            print(f"{key}: {val}")
+        # env_vars_pretty = [f"{key}: {val}\n" for key, val in cls.env_vars.items()]
+        # print(f"EnvVarMemory(env_vars={env_vars_pretty}")
+
+    @classmethod
     def get(cls, *, key: str) -> EnvData:
         return cls.env_vars[key]
 

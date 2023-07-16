@@ -1,3 +1,5 @@
+import json
+import yaml
 import os
 from typing import Any, Optional
 from enumeration.EnvVarSource import EnvVarSource
@@ -45,4 +47,28 @@ def load_env_vars_from_os() -> None:
             EnvVarMemory.set(
                 key=key.removeprefix(f"{Settings.os_env_prefix}_"),
                 env_data=EnvData(env_var_source=EnvVarSource.OS, value=value),
+            )
+
+
+def load_env_vars_from_files() -> None:
+    env_var_dicts: list[dict[str, Any]] = []
+    for file_path in Settings.env_var_absolute_file_paths:
+        _, ext = os.path.splitext(file_path)
+
+        if ext == ".json":
+            with open(file_path, "r") as f:
+                env_var_dicts.append(json.load(f))
+        elif ext in [".yaml", ".yml"]:
+            with open(file_path, "r") as f:
+                env_var_dicts.append(yaml.safe_load(f))
+        else:
+            raise ValueError(f"Unsupported file type {ext}")
+
+    for env_var_dict in env_var_dicts:
+        for key, value in env_var_dict.items():
+            EnvVarMemory.set(
+                key=key,
+                env_data=EnvData(
+                    env_var_source=EnvVarSource.FILE, value=value, as_type=type(value)
+                ),
             )
