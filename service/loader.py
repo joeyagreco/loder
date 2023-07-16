@@ -15,12 +15,13 @@ def define_env_var(
     """
     # validation
     if default_value and type(default_value) != as_type:
+        # TODO: this does not play nice with complex generic types like: dict[str, int]
         raise TypeError(
             f"Expected key '{key}' to be of type '{as_type}'. Received default value of type '{type(default_value)}'"
         )
     EnvVarMemory.set(
-        key,
-        EnvData(
+        key=key,
+        env_data=EnvData(
             as_type=as_type,
             description=description,
             env_var_source=EnvVarSource.CODE,
@@ -40,6 +41,6 @@ def load_env_vars_from_os() -> None:
                 continue
 
             EnvVarMemory.set(
-                key.removeprefix(f"{Settings.os_env_prefix}_"),
-                EnvData(env_var_source=EnvVarSource.OS, value=value),
+                key=key.removeprefix(f"{Settings.os_env_prefix}_"),
+                env_data=EnvData(env_var_source=EnvVarSource.OS, value=value),
             )

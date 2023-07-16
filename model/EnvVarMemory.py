@@ -11,9 +11,11 @@ class EnvVarMemory:
 
     env_vars: dict[str, EnvData] = {}
 
+    @classmethod
     def get(cls, *, key: str) -> EnvData:
         return cls.env_vars[key]
 
+    @classmethod
     def set(cls, *, key: str, env_data: EnvData) -> None:
         if not Settings.allow_env_var_key_override and key in cls.env_vars:
             raise DuplicateKeyException(f"Key '{key}' is already taken.")
