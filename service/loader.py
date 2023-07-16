@@ -33,7 +33,7 @@ def define_env_var(
     )
 
 
-def load_env_vars_from_os() -> None:
+def load_env_vars_from_os(as_processed: bool = False) -> None:
     if Settings.load_env_vars_from_os:
         load_dotenv()
         env_vars = os.environ
@@ -47,10 +47,11 @@ def load_env_vars_from_os() -> None:
             EnvVarMemory.set(
                 key=key.removeprefix(f"{Settings.os_env_prefix}_"),
                 env_data=EnvData(env_var_source=EnvVarSource.OS, value=value),
+                as_processed=as_processed,
             )
 
 
-def load_env_vars_from_files() -> None:
+def load_env_vars_from_files(as_processed: bool = False) -> None:
     env_var_dicts: list[dict[str, Any]] = []
     for file_path in Settings.env_var_absolute_file_paths:
         _, ext = os.path.splitext(file_path)
@@ -71,11 +72,17 @@ def load_env_vars_from_files() -> None:
                 env_data=EnvData(
                     env_var_source=EnvVarSource.FILE, value=value, as_type=type(value)
                 ),
+                as_processed=as_processed,
             )
 
 
-def load_all_env_vars() -> None:
+def load_all_env_vars(as_processed: bool = False) -> None:
     if Settings.load_env_vars_from_os:
-        load_env_vars_from_os()
+        load_env_vars_from_os(as_processed)
     if Settings.load_env_vars_from_files:
-        load_env_vars_from_files()
+        load_env_vars_from_files(as_processed)
+
+
+def process():
+    load_all_env_vars(as_processed=True)
+    EnvVarMemory.process()
