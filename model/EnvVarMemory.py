@@ -14,7 +14,11 @@ class EnvVarMemory:
 
     @classmethod
     def print(cls):
+        print("PROCESSED\n__________")
         for key, val in cls.env_vars.items():
+            print(f"{key}: {val}")
+        print("UNPROCESSED\n__________")
+        for key, val in cls.env_vars_unprocessed.items():
             print(f"{key}: {val}")
 
     @classmethod
@@ -35,3 +39,4 @@ class EnvVarMemory:
     def process(cls) -> None:
         for key, env_data in cls.env_vars_unprocessed.items():
             cls.set(key=key, env_data=env_data, as_processed=True)
+        cls.env_vars_unprocessed = {}
