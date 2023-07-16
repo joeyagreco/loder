@@ -1,2 +1,2 @@
 class Settings:
-    allow_override = False
+    allow_key_override = False

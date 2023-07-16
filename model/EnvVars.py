@@ -1,5 +1,6 @@
 from typing import Any
 from exception.DuplicateKeyException import DuplicateKeyException
+from model.EnvData import EnvData
 
 from model.Settings import Settings
 
@@ -9,12 +10,12 @@ class EnvVars:
     Used to store all env vars.
     """
 
-    env_vars = {}
+    env_vars: dict[str, EnvData] = {}
 
-    def get(cls, *, key: str) -> Any:
+    def get(cls, *, key: str) -> EnvData:
         return cls.env_vars[key]
 
-    def set(cls, *, key: str, value: Any) -> None:
-        if not Settings.allow_override and key in cls.env_vars:
+    def set(cls, *, key: str, env_data: EnvData) -> None:
+        if not Settings.allow_key_override and key in cls.env_vars:
             raise DuplicateKeyException(f"Key '{key}' is already taken.")
-        cls.env_vars[key] = value
+        cls.env_vars[key] = env_data
