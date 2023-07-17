@@ -33,7 +33,7 @@ jobs:
           pip install black==23.3.0 autoflake==2.1.1
       
       - name: Check Duplicate Test Method Names
-        run: python scripts/batch/helper/duplicate-test-methods.py
+        run: python scripts/python/duplicate-test-methods.py
 
       - name: Check Formatting
         run: black --config pyproject.toml --check --diff .
