@@ -66,6 +66,7 @@ def __load_env_vars_from_files(as_processed: bool = False) -> None:
             raise ValueError(f"Unsupported file type '{ext}'")
 
     for env_var_dict in env_var_dicts:
+        print(f"env var dict: {env_var_dict}")
         for key, value in env_var_dict.items():
             EnvVarMemory.set(
                 key=key,

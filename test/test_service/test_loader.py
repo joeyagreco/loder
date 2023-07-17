@@ -16,8 +16,8 @@ class TestLoader(unittest.TestCase):
         # Clear all environment variables
         os.environ.clear()
 
-        EnvVarMemory.env_vars = {}
-        EnvVarMemory.env_vars_unprocessed = {}
+        EnvVarMemory.reset()
+        Settings.reset()
 
     def tearDown(self):
         # Restore original environment variables after test
@@ -131,6 +131,27 @@ class TestLoader(unittest.TestCase):
                 ),
                 "BOT": EnvData(
                     as_type=bool, description="", env_var_source=EnvVarSource.FILE, value=True
+                ),
+            },
+            EnvVarMemory.env_vars,
+        )
+
+    @patch.dict(
+        "os.environ", {"foo": "a", "bar": "b"}
+    )  # this seems to be the only way to mock os.environ
+    @patch("loder.service.loader.load_dotenv")
+    def test_defineAndProcess_osVarsOnly_yml_happyPath(self, mock_load_dotenv):
+        loader.process()
+        EnvVarMemory.print()
+
+        self.assertEqual({}, EnvVarMemory.env_vars_unprocessed)
+        self.assertEqual(
+            {
+                "FOO": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.OS, value="a"
+                ),
+                "BAR": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.OS, value="b"
                 ),
             },
             EnvVarMemory.env_vars,
