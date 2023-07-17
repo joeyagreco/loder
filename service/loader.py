@@ -33,7 +33,7 @@ def define_env_var(
     )
 
 
-def load_env_vars_from_os(as_processed: bool = False) -> None:
+def __load_env_vars_from_os(as_processed: bool = False) -> None:
     if Settings.load_env_vars_from_os:
         load_dotenv()
         env_vars = os.environ
@@ -51,7 +51,7 @@ def load_env_vars_from_os(as_processed: bool = False) -> None:
             )
 
 
-def load_env_vars_from_files(as_processed: bool = False) -> None:
+def __load_env_vars_from_files(as_processed: bool = False) -> None:
     env_var_dicts: list[dict[str, Any]] = []
     for file_path in Settings.env_var_absolute_file_paths:
         _, ext = os.path.splitext(file_path)
@@ -76,13 +76,27 @@ def load_env_vars_from_files(as_processed: bool = False) -> None:
             )
 
 
-def load_all_env_vars(as_processed: bool = False) -> None:
+def __load_all_env_vars(as_processed: bool = False) -> None:
     if Settings.load_env_vars_from_os:
-        load_env_vars_from_os(as_processed)
+        __load_env_vars_from_os(as_processed)
     if Settings.load_env_vars_from_files:
-        load_env_vars_from_files(as_processed)
+        __load_env_vars_from_files(as_processed)
 
 
 def process():
-    load_all_env_vars(as_processed=True)
+    """
+    The env vars loaded last will overwrite the env vars loaded first.
+
+    Load Order:
+        1. OS
+        2. File
+        3. CODE
+
+    Meaning Code will overwrite File and File will overwrite OS.
+    """
+    __load_all_env_vars(as_processed=True)
     EnvVarMemory.process()
+
+
+def reset():
+    EnvVarMemory.reset()

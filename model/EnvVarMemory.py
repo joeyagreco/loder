@@ -14,12 +14,16 @@ class EnvVarMemory:
 
     @classmethod
     def print(cls):
-        print("PROCESSED\n__________")
+        print("\nPROCESSED\n____________")
         for key, val in cls.env_vars.items():
             print(f"{key}: {val}")
-        print("UNPROCESSED\n__________")
+        if len(cls.env_vars) == 0:
+            print("<empty>")
+        print("\nUNPROCESSED\n____________")
         for key, val in cls.env_vars_unprocessed.items():
             print(f"{key}: {val}")
+        if len(cls.env_vars_unprocessed) == 0:
+            print("<empty>")
 
     @classmethod
     def get(cls, *, key: str) -> EnvData:
@@ -40,3 +44,8 @@ class EnvVarMemory:
         for key, env_data in cls.env_vars_unprocessed.items():
             cls.set(key=key, env_data=env_data, as_processed=True)
         cls.env_vars_unprocessed = {}
+
+    @classmethod
+    def reset(cls) -> None:
+        cls.env_vars_unprocessed = {}
+        cls.env_vars = {}
