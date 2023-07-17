@@ -59,8 +59,7 @@ class TestLoader(unittest.TestCase):
         )
 
     @patch("os.environ")
-    def test_defineAndProcess_fileVarsOnly_happyPath(self, mock_os_environ):
-        # JSON
+    def test_defineAndProcess_fileVarsOnly_json_happyPath(self, mock_os_environ):
         cwd = os.path.dirname(os.path.abspath(__file__))
         json_file_path = os.path.join(cwd, "resource", "dummy_1.json")
 
@@ -78,6 +77,60 @@ class TestLoader(unittest.TestCase):
                 ),
                 "BAZ": EnvData(
                     as_type=str, description="", env_var_source=EnvVarSource.FILE, value="baz"
+                ),
+            },
+            EnvVarMemory.env_vars,
+        )
+
+    @patch("os.environ")
+    def test_defineAndProcess_fileVarsOnly_yaml_happyPath(self, mock_os_environ):
+        cwd = os.path.dirname(os.path.abspath(__file__))
+        json_file_path = os.path.join(cwd, "resource", "dummy_1.yaml")
+
+        Settings.env_var_absolute_file_paths = [json_file_path]
+        loader.process()
+
+        self.assertEqual({}, EnvVarMemory.env_vars_unprocessed)
+        self.assertEqual(
+            {
+                "FOO": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.FILE, value="foo"
+                ),
+                "BAR": EnvData(
+                    as_type=int, description="", env_var_source=EnvVarSource.FILE, value=1
+                ),
+                "BAZ": EnvData(
+                    as_type=float, description="", env_var_source=EnvVarSource.FILE, value=1.1
+                ),
+                "BOT": EnvData(
+                    as_type=bool, description="", env_var_source=EnvVarSource.FILE, value=True
+                ),
+            },
+            EnvVarMemory.env_vars,
+        )
+
+    @patch("os.environ")
+    def test_defineAndProcess_fileVarsOnly_yml_happyPath(self, mock_os_environ):
+        cwd = os.path.dirname(os.path.abspath(__file__))
+        json_file_path = os.path.join(cwd, "resource", "dummy_1.yml")
+
+        Settings.env_var_absolute_file_paths = [json_file_path]
+        loader.process()
+
+        self.assertEqual({}, EnvVarMemory.env_vars_unprocessed)
+        self.assertEqual(
+            {
+                "FOO": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.FILE, value="foo"
+                ),
+                "BAR": EnvData(
+                    as_type=int, description="", env_var_source=EnvVarSource.FILE, value=2
+                ),
+                "BAZ": EnvData(
+                    as_type=float, description="", env_var_source=EnvVarSource.FILE, value=2.2
+                ),
+                "BOT": EnvData(
+                    as_type=bool, description="", env_var_source=EnvVarSource.FILE, value=True
                 ),
             },
             EnvVarMemory.env_vars,
