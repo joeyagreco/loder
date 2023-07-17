@@ -63,6 +63,7 @@ class TestLoader(unittest.TestCase):
         # JSON
         cwd = os.path.abspath(os.getcwd())
         json_file_path = os.path.join(cwd, "resource", "dummy_1.json")
+        print(f"jg test filepath: {json_file_path}")
 
         Settings.env_var_absolute_file_paths = [json_file_path]
         loader.process()
