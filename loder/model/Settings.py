@@ -14,3 +14,7 @@ class Settings:
     os_env_prefix: Optional[
         str
     ] = None  # the case-sensitive prefix to filter on when loading env vars from the OS
+
+    @classmethod
+    def reset() -> None:
+        pass
