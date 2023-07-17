@@ -10,7 +10,7 @@ from model.Settings import Settings
 from dotenv import load_dotenv
 
 
-def define_env_var(
+def define(
     key: str, as_type: type, default_value: Optional[Any] = None, description: str = ""
 ) -> None:
     """
