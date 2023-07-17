@@ -1,6 +1,6 @@
 from typing import Any
 
-from enumeration.EnvVarSource import EnvVarSource
+from loder.enumeration.EnvVarSource import EnvVarSource
 
 
 class EnvData:

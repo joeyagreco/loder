@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import unique
 
-from enumeration.BaseEnum import BaseEnum
+from loder.enumeration.BaseEnum import BaseEnum
 
 
 @unique

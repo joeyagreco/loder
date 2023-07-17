@@ -1,7 +1,6 @@
-from exception.DuplicateKeyException import DuplicateKeyException
-from model.EnvData import EnvData
-
-from model.Settings import Settings
+from loder.exception.DuplicateKeyException import DuplicateKeyException
+from loder.model.EnvData import EnvData
+from loder.model.Settings import Settings
 
 
 class EnvVarMemory:

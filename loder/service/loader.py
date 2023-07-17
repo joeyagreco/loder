@@ -2,11 +2,11 @@ import json
 import yaml
 import os
 from typing import Any, Optional
-from enumeration.EnvVarSource import EnvVarSource
-from model.EnvData import EnvData
-from model.EnvVarMemory import EnvVarMemory
+from loder.enumeration.EnvVarSource import EnvVarSource
+from loder.model.EnvData import EnvData
+from loder.model.EnvVarMemory import EnvVarMemory
 
-from model.Settings import Settings
+from loder.model.Settings import Settings
 from dotenv import load_dotenv
 
 
