@@ -8,3 +8,9 @@
 ![Unit Tests](https://github.com/joeyagreco/loder/actions/workflows/unit-tests.yml/badge.svg)
 ![Formatting Check](https://github.com/joeyagreco/loder/actions/workflows/formatting-check.yml/badge.svg)
 </div>
+
+## Development
+
+_Run these commands from the root folder_
+- Format Code: `./main fmt`
+- Run Unit Tests: `./main test`
