@@ -57,7 +57,6 @@ def __load_env_vars_from_files(as_processed: bool = False) -> None:
         _, ext = os.path.splitext(file_path)
 
         if ext == ".json":
-            print(f"jg filepath: {file_path}")  # todo
             with open(file_path, "r") as f:
                 env_var_dicts.append(json.load(f))
         elif ext in [".yaml", ".yml"]:

@@ -61,9 +61,8 @@ class TestLoader(unittest.TestCase):
     @patch("os.environ")
     def test_defineAndProcess_fileVarsOnly_happyPath(self, mock_os_environ):
         # JSON
-        cwd = os.path.abspath(os.getcwd())
+        cwd = os.path.dirname(os.path.abspath(__file__))
         json_file_path = os.path.join(cwd, "resource", "dummy_1.json")
-        print(f"jg test filepath: {json_file_path}")
 
         Settings.env_var_absolute_file_paths = [json_file_path]
         loader.process()
