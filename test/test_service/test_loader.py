@@ -4,6 +4,7 @@ from loder.enumeration.EnvVarSource import EnvVarSource
 from loder.model.EnvData import EnvData
 
 from loder.model.EnvVarMemory import EnvVarMemory
+from loder.model.Settings import Settings
 from loder.service import loader
 from unittest.mock import patch
 
@@ -40,7 +41,7 @@ class TestLoader(unittest.TestCase):
         )
 
     @patch("os.environ")
-    def test_defineAndProcess_happyPath(self, mock_os_environ):
+    def test_defineAndProcess_codeVarsOnly_happyPath(self, mock_os_environ):
         loader.define(key="foo", as_type=int, default_value=17, description="foo description")
         loader.process()
 
@@ -53,6 +54,32 @@ class TestLoader(unittest.TestCase):
                     env_var_source=EnvVarSource.CODE,
                     value=17,
                 )
+            },
+            EnvVarMemory.env_vars,
+        )
+
+    @patch("os.environ")
+    def test_defineAndProcess_fileVarsOnly_happyPath(self, mock_os_environ):
+        cwd = os.path.abspath(os.getcwd())
+        json_file_path = os.path.join(cwd, "resource", "dummy_1.json")
+        print(f"type json file: {type(json_file_path)}")
+        print(f"json file: {json_file_path}")
+
+        Settings.env_var_absolute_file_paths = [json_file_path]
+        loader.process()
+
+        self.assertEqual({}, EnvVarMemory.env_vars_unprocessed)
+        self.assertEqual(
+            {
+                "FOO": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.FILE, value="foo"
+                ),
+                "BAR": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.FILE, value="BAR"
+                ),
+                "BAZ": EnvData(
+                    as_type=str, description="", env_var_source=EnvVarSource.FILE, value="baz"
+                ),
             },
             EnvVarMemory.env_vars,
         )
